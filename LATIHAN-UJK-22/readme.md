@@ -115,6 +115,13 @@ redis connec
 
 SWITCH 1-2
 
+! Interface Configuration
+interface vlan 100
+ ip address  192.4.8.2 255.255.255.0
+ ip address  192.4.8.6 255.255.255.0
+ ip default-gateway 192.4.8.1
+ 
+
 ! Telnet Configuration
 line vty 0 4
  password cisco123
@@ -135,8 +142,36 @@ enable secret class123
 ! Save Configuration
 end
 write memory
+
+Note: Port Trunking must enabled at switch to switch.
 ```
 
+
+### Network E
+
+| Network | Network Address | CIDR | Subnet Mask | Purpose | Protocol | SE | WAN |
+|---------|----------------|------|-------------|---------|----------|----- | --- |
+| NET-E LAN | 192.4.6.0 | /24 | 255.255.255.0 | Client Network E | - | 192.4.1.28/30 |
+| NET-F LAN | 192.4.7.0 | /24 | 255.255.255.0 | Client Network E | - | 192.4.1.28/30 | 192.4.7.100
+
+### Configuration NET E 
+```shell
+ROUTER-BRIDGE | BGP 400
+
+router bgp 300
+neighbor 192.4.1.29 remote-as 100
+redis connec
+
+WRT-300N
+
+LAN: 192.4.7.0/24
+WAN: 192.4.7.100/24
+WPA2/PSK: NET-F-ID
+
+DHCP: 192.4.7.100 - 192.4.10.254
+
+Note: WRT300N CANNOT connect to NET E directly.
+```
 ---
 
 
@@ -318,19 +353,19 @@ SWITCH-A# show interfaces trunk
 
 ## Project Completion Checklist
 
-- [ ] All IP addresses configured correctly
-- [ ] All interfaces in "up/up" state
-- [ ] EIGRP neighbors established
-- [ ] Full connectivity between CLIENT-A and CLIENT-B
-- [ ] Telnet access working from clients to routers
-- [ ] VLANs created and assigned
-- [ ] All passwords configured
-- [ ] Configuration saved on all devices
-- [ ] Documentation completed
-- [ ] Network tested and verified
+- [x] All IP addresses configured correctly
+- [x] All interfaces in "up/up" state
+- [x] EIGRP neighbors established
+- [x] Full connectivity between CLIENT-A and CLIENT-B
+- [x] Telnet access working from clients to routers
+- [x] VLANs created and assigned
+- [x] All passwords configured
+- [x] Configuration saved on all devices
+- [x] Documentation completed
+- [x] Network tested and verified
 
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** November 25, 2025  
+**Last Updated:** November 26, 2025  
 **Project Type:** Cisco Packet Tracer Educational Lab
